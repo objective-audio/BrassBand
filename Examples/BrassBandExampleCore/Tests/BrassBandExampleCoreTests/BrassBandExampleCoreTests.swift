@@ -1,7 +1,8 @@
 import XCTest
-@testable import BrassBand
 
-final class BrassBandTests: XCTestCase {
+@testable import BrassBandMacExampleCore
+
+final class BrassBandMacExampleCoreTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest

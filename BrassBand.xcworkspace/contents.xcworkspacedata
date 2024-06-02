@@ -4,4 +4,13 @@
    <FileRef
       location = "group:">
    </FileRef>
+   <FileRef
+      location = "group:Examples/BrassBandExampleCore">
+   </FileRef>
+   <FileRef
+      location = "group:Examples/BrassBandMacExample/BrassBandMacExample.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Examples/BrassBandiOSExample/BrassBandiOSExample.xcodeproj">
+   </FileRef>
 </Workspace>
