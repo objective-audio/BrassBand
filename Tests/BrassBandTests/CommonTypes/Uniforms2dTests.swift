@@ -3,8 +3,8 @@ import Testing
 
 struct Uniforms2dTests {
     @Test func equal() {
-        func makeTestMatrix(_ value: Float) -> simd.float4x4 {
-            float4x4.translation(x: value, y: value).cpp
+        func makeTestMatrix(_ value: Float) -> simd_float4x4 {
+            float4x4.translation(x: value, y: value)
         }
 
         #expect(

@@ -57,19 +57,19 @@ private final class ActionStub: Renderer.Action {
         var lastUpdateDate: Date?
         var shouldUpdate: Bool = true
     }
-    
+
     private let lock = OSAllocatedUnfairLock(initialState: Protected())
-    
+
     var updateCalled: Bool {
         get { lock.withLock { $0.updateCalled } }
         set { lock.withLock { $0.updateCalled = newValue } }
     }
-    
+
     var lastUpdateDate: Date? {
         get { lock.withLock { $0.lastUpdateDate } }
         set { lock.withLock { $0.lastUpdateDate = newValue } }
     }
-    
+
     var shouldUpdate: Bool {
         get { lock.withLock { $0.shouldUpdate } }
         set { lock.withLock { $0.shouldUpdate = newValue } }
