@@ -47,8 +47,4 @@ extension simd_float4x4 {
             .init(2.0 / rsl, 0.0, 0.0, 0.0), .init(0.0, 2.0 / tsb, 0.0, 0.0),
             .init(0.0, 0.0, -2.0 / fsn, 0.0), .init(-ral / rsl, -tab / tsb, -fan / fsn, 1.0))
     }
-
-    public var cpp: simd.float4x4 {
-        .init(self)
-    }
 }
