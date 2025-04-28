@@ -14,9 +14,14 @@ struct MetalEncodeInfoTests {
         let device = try #require(MTLCreateSystemDefaultDevice())
         renderPassDescriptor = MTLRenderPassDescriptor()
         let defaultLibrary = try #require(ShaderBundle.defaultMetalLibrary(device: device))
+
+        let colorDescription = MTLRenderPipelineColorAttachmentDescriptor()
+        colorDescription.pixelFormat = .bgra8Unorm
         let vertexFunction = defaultLibrary.makeFunction(name: "vertex2d")
         let pipelineStateDescription = MTLRenderPipelineDescriptor()
+        pipelineStateDescription.rasterSampleCount = 1
         pipelineStateDescription.vertexFunction = vertexFunction
+        pipelineStateDescription.colorAttachments[0] = colorDescription
         pipelineStateWithTexture = try device.makeRenderPipelineState(
             descriptor: pipelineStateDescription)
         pipelineStateWithoutTexture = try device.makeRenderPipelineState(
