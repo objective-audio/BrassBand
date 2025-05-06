@@ -139,4 +139,24 @@ struct ViewLookTests {
         #expect(viewLook.projectionMatrix == expected)
         #expect(viewLook.treeMatrix == expected)
     }
+
+    @Test func observeAppearance() throws {
+        let viewLook = ViewLook()
+
+        var received: Appearance = .normal
+
+        let canceller = viewLook.appearancePublisher.sink {
+            received = $0
+        }
+
+        #expect(received == .normal)
+        #expect(viewLook.appearance == .normal)
+
+        viewLook.appearance = .dark
+
+        #expect(received == .dark)
+        #expect(viewLook.appearance == .dark)
+
+        canceller.cancel()
+    }
 }
