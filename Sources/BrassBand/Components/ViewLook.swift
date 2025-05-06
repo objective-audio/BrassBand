@@ -17,6 +17,9 @@ public final class ViewLook {
 
     @CurrentValue
     public internal(set) var appearance: Appearance = .normal
+    public var appearancePublisher: AnyPublisher<Appearance, Never> {
+        $appearance.eraseToAnyPublisher()
+    }
 
     public let viewLayoutGuide: LayoutRegionGuide = .init()
     public let safeAreaLayoutGuide: LayoutRegionGuide = .init()
