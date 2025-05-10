@@ -193,4 +193,60 @@ struct RectPlaneDataTests {
 
         cancellable.cancel()
     }
+
+    @Test func bindRectTexcoordsWithTransform() {
+        let data = RectPlaneData(rectCount: 1)
+        let texcoords = UIntRegion(origin: .zero, size: .init(width: 100, height: 100))
+
+        data.setRectTexcoords(texcoords, rectIndex: 0)
+
+        // Textureを生成
+        let scaleFactorProvider = ScaleFactorProviderStub()
+        let texture = Texture(
+            pointSize: .init(width: 100, height: 100),
+            scaleFactorProvider: scaleFactorProvider
+        )
+
+        // TextureElementをTextureのaddElementで生成
+        let element = texture.addElement(size: .init(width: 100, height: 100)) { _ in }
+
+        // RectPlaneDataにTextureElementをバインド（transform付き）
+        let cancellable = data.bindRectTexcoords(
+            element: element,
+            rectIndex: 0
+        ) { region in
+            // テクスチャ座標を拡大する変換
+            UIntRegion(
+                origin: UIntPoint(x: region.origin.x + 10, y: region.origin.y + 10),
+                size: UIntSize(
+                    width: region.size.width + 20,
+                    height: region.size.height + 20
+                )
+            )
+        }
+
+        // TextureElementにtexcoordsをセット
+        element.texCoords = UIntRegion(
+            origin: UIntPoint(x: 20, y: 20),
+            size: UIntSize(width: 60, height: 60)
+        )
+
+        // 変換されたテクスチャ座標が正しく設定されているか確認
+        data.vertexData.read { vertices in
+            vertices.withMemoryRebound(to: Vertex2dRect.self) { rects in
+                let positions = RegionPositions(
+                    UIntRegion(
+                        origin: UIntPoint(x: 30, y: 30),
+                        size: UIntSize(width: 80, height: 80)
+                    )
+                )
+                #expect(rects[0].vertices.0.texCoord == positions[0])
+                #expect(rects[0].vertices.1.texCoord == positions[1])
+                #expect(rects[0].vertices.2.texCoord == positions[2])
+                #expect(rects[0].vertices.3.texCoord == positions[3])
+            }
+        }
+
+        cancellable.cancel()
+    }
 }
