@@ -126,9 +126,14 @@ public final class RectPlaneData {
         }
     }
 
-    public func bindRectTexcoords(element: TextureElement, rectIndex: Int) -> AnyCancellable {
+    public func bindRectTexcoords(
+        element: TextureElement,
+        rectIndex: Int,
+        transform: ((UIntRegion) -> UIntRegion)? = nil
+    ) -> AnyCancellable {
         element.$texCoords.sink { [weak self] texCoords in
-            self?.setRectTexcoords(texCoords, rectIndex: rectIndex)
+            let transformedCoords = transform?(texCoords) ?? texCoords
+            self?.setRectTexcoords(transformedCoords, rectIndex: rectIndex)
         }
     }
 }
