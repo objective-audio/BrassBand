@@ -6,7 +6,7 @@ import Testing
 
 @MainActor
 struct RectPlaneDataTests {
-    @Test func initWithRectCount() async {
+    @Test func initWithRectCount() {
         let data = RectPlaneData(rectCount: 2)
 
         #expect(data.rectCount == 2)
@@ -25,7 +25,7 @@ struct RectPlaneDataTests {
         }
     }
 
-    @Test func setRectPosition() async {
+    @Test func setRectPosition() {
         let data = RectPlaneData(rectCount: 1)
         let region = Region(center: .zero, size: .init(width: 100, height: 100))
 
@@ -42,7 +42,7 @@ struct RectPlaneDataTests {
         }
     }
 
-    @Test func setRectColor() async {
+    @Test func setRectColor() {
         let data = RectPlaneData(rectCount: 1)
         let color = Color(rgb: .red, alpha: .one)
 
@@ -58,7 +58,7 @@ struct RectPlaneDataTests {
         }
     }
 
-    @Test func setRectTexcoords() async {
+    @Test func setRectTexcoords() {
         let data = RectPlaneData(rectCount: 1)
         let texcoords = UIntRegion(origin: .zero, size: .init(width: 100, height: 100))
 
@@ -75,7 +75,7 @@ struct RectPlaneDataTests {
         }
     }
 
-    @Test func setRectIndices() async {
+    @Test func setRectIndices() {
         let data = RectPlaneData(rectCount: 2)
         let indexPairs = [(indexIndex: 0, vertexIndex: 1)]
 
@@ -93,7 +93,7 @@ struct RectPlaneDataTests {
         }
     }
 
-    @Test func setRect() async {
+    @Test func setRect() {
         let data = RectPlaneData(rectCount: 1)
         let region = Region(center: .zero, size: .init(width: 100, height: 100))
         let color = Color(rgb: .red, alpha: .one)
@@ -132,7 +132,7 @@ struct RectPlaneDataTests {
         }
     }
 
-    @Test func rectCount() async {
+    @Test func rectCount() {
         let data = RectPlaneData(rectCount: 2)
 
         #expect(data.rectCount == 2)
@@ -144,7 +144,7 @@ struct RectPlaneDataTests {
         #expect(data.rectCount == 0)
     }
 
-    @Test func bindRectTexcoords() async {
+    @Test func bindRectTexcoords() {
         let data = RectPlaneData(rectCount: 1)
         let texcoords = UIntRegion(origin: .zero, size: .init(width: 100, height: 100))
 
