@@ -1,6 +1,7 @@
 import Foundation
 
 public struct AnywhereShape {
+    public init() {}
 }
 
 extension AnywhereShape: Shape {
