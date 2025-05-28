@@ -33,6 +33,14 @@ open class MetalViewController: UI.ViewController {
 
         updateViewLookSizes(drawableSize: metalView.drawableSize)
         viewLook.appearance = metalView.uiAppearance
+
+        #if os(iOS)
+            view.registerForTraitChanges([
+                UITraitUserInterfaceStyle.self
+            ]) { [weak self] (view: UI.View, previousTraitCollection: UITraitCollection) in
+                self?.appearanceDidChange()
+            }
+        #endif
     }
 
     #if os(macOS)
