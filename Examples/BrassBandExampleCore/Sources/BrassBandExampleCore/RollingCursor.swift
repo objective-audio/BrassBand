@@ -3,7 +3,7 @@ import Foundation
 
 @MainActor
 final class RollingCursor {
-    let node: Node = .init()
+    let node: Node = Node.empty
     private var cancellables: Set<AnyCancellable> = []
 
     init(eventInput: EventInput, rootAction: ParallelAction) {

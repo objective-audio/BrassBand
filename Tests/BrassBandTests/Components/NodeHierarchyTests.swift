@@ -4,9 +4,9 @@ import Testing
 @MainActor
 struct NodeHierarchyTests {
     @Test func hierarchy() {
-        let parentNode = Node()
-        let subNode1 = Node()
-        let subNode2 = Node()
+        let parentNode = Node.empty
+        let subNode1 = Node.empty
+        let subNode2 = Node.empty
 
         #expect(parentNode.subNodes.isEmpty)
         #expect(subNode1.parent == nil)
@@ -42,9 +42,9 @@ struct NodeHierarchyTests {
     }
 
     @Test func removeSubNode() {
-        let parentNode = Node()
-        let subNode1 = Node()
-        let subNode2 = Node()
+        let parentNode = Node.empty
+        let subNode1 = Node.empty
+        let subNode2 = Node.empty
 
         parentNode.appendSubNode(subNode1)
         parentNode.appendSubNode(subNode2)
@@ -65,9 +65,9 @@ struct NodeHierarchyTests {
     }
 
     @Test func removeAllSubNodes() {
-        let parentNode = Node()
-        let subNode1 = Node()
-        let subNode2 = Node()
+        let parentNode = Node.empty
+        let subNode1 = Node.empty
+        let subNode2 = Node.empty
 
         parentNode.appendSubNode(subNode1)
         parentNode.appendSubNode(subNode2)
@@ -82,10 +82,10 @@ struct NodeHierarchyTests {
     }
 
     @Test func insertSubNode() {
-        let parentNode = Node()
-        let subNode1 = Node()
-        let subNode2 = Node()
-        let subNode3 = Node()
+        let parentNode = Node.empty
+        let subNode1 = Node.empty
+        let subNode2 = Node.empty
+        let subNode3 = Node.empty
 
         parentNode.appendSubNode(subNode1)
         parentNode.appendSubNode(subNode3)
@@ -98,10 +98,10 @@ struct NodeHierarchyTests {
     }
 
     @Test func parentChangedWhenAppendSubNode() {
-        let parentNode1 = Node()
-        let parentNode2 = Node()
+        let parentNode1 = Node.empty
+        let parentNode2 = Node.empty
 
-        let subNode = Node()
+        let subNode = Node.empty
 
         parentNode1.appendSubNode(subNode)
 

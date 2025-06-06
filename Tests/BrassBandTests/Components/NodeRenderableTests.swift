@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct NodeRenderableTests {
     @Test func none() {
-        let node = Node()
+        let node = Node.empty
 
         #expect(node.renderable is Node.RenderableNone)
         #expect(node.content == nil)

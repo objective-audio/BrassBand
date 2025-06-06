@@ -5,7 +5,7 @@ import Testing
 struct Action_NodeTests {
     @Test @MainActor func translation() {
         var completed = false
-        let node = Node()
+        let node = Node.empty
         let beginTime = Date.now
 
         let action = Action.Translation(
@@ -28,7 +28,7 @@ struct Action_NodeTests {
 
     @Test @MainActor func rotation() {
         var completed = false
-        let node = Node()
+        let node = Node.empty
         let beginTime = Date.now
 
         let action = Action.Rotation(
@@ -51,7 +51,7 @@ struct Action_NodeTests {
 
     @Test @MainActor func rotationWithShortest() {
         var completed = false
-        let node = Node()
+        let node = Node.empty
         let beginTime = Date.now
 
         let action = Action.Rotation(
@@ -75,7 +75,7 @@ struct Action_NodeTests {
 
     @Test @MainActor func scaling() {
         var completed = false
-        let node = Node()
+        let node = Node.empty
         let beginTime = Date.now
 
         let action = Action.Scaling(

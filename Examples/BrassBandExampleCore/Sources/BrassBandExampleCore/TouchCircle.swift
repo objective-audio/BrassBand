@@ -9,7 +9,7 @@ final class TouchCircle {
         let actionId: ActionId
     }
 
-    private let rootNode: Node = .init()
+    private let rootNode: Node = .empty
 
     var node: Node { rootNode }
 

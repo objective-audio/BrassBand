@@ -9,7 +9,7 @@ final class HoverPlanes {
 
     init(components: Components) {
         let nodeCount: Int = 16
-        let rootNode = Node()
+        let rootNode = Node.empty
         let rootAction = components.rootAction
 
         node = rootNode
@@ -29,7 +29,7 @@ final class HoverPlanes {
                 .init(shape: RectShape(rect: .init(center: .zero, size: .one)))
             ]
 
-            let handleNode = Node()
+            let handleNode = Node.empty
             handleNode.appendSubNode(node)
             handleNode.geometry.angle = .init(degrees: 360.0 / Float(nodeCount) * Float(index))
 
