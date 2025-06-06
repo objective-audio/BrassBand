@@ -3,7 +3,7 @@ import Foundation
 
 @MainActor
 final class SoftKeyboard {
-    let node: Node = .init()
+    let node: Node = .empty
 
     private let softKeys: [SoftKey]
     private let fontAtlas: FontAtlas

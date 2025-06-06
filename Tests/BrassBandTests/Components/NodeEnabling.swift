@@ -4,7 +4,7 @@ import Testing
 @MainActor
 struct NodeEnablingTest {
     @Test func isEnabled() {
-        let node = Node()
+        let node = Node.empty
 
         #expect(node.isEnabled == true)
 

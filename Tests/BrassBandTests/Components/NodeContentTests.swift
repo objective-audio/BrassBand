@@ -102,7 +102,7 @@ struct NodeContentTests {
         renderInfo.matrix = translatedMatrix
         renderInfo.meshMatrix = scaledMatrix
 
-        let subNodes: [Node] = [Node(), Node()]
+        let subNodes: [Node] = [Node.empty, Node.empty]
 
         content.buildRenderInfo(&renderInfo, subNodes: subNodes)
 

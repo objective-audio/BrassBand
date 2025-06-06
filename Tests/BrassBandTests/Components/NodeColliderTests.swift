@@ -4,7 +4,7 @@ import Testing
 @MainActor
 struct NodeColliderTests {
     @Test func colliders() {
-        let node = Node()
+        let node = Node.empty
 
         #expect(node.colliders.isEmpty)
 

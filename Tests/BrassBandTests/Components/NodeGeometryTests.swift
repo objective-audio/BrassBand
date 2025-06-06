@@ -81,8 +81,8 @@ struct NodeGeometryTests {
     }
 
     @Test func convertPosition() {
-        let node = Node()
-        let subNode = Node()
+        let node = Node.empty
+        let subNode = Node.empty
         node.appendSubNode(subNode)
         node.geometry.position = .init(x: -1.0, y: -1.0)
         node.geometry.scale = .init(width: 1.0 / 200.0, height: 1.0 / 100.0)
@@ -93,12 +93,12 @@ struct NodeGeometryTests {
     }
 
     @Test func treeMatrix() {
-        let rootNode = Node()
+        let rootNode = Node.empty
         rootNode.geometry.position = .init(x: 10.0, y: -10.0)
         rootNode.geometry.scale = .init(width: 2.0, height: 0.5)
         rootNode.geometry.angle = .init(degrees: 90.0)
 
-        let subNode = Node()
+        let subNode = Node.empty
         subNode.geometry.position = .init(x: -50.0, y: 10.0)
         subNode.geometry.scale = .init(width: 0.25, height: 3.0)
         subNode.geometry.angle = .init(degrees: -45.0)

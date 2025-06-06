@@ -79,6 +79,7 @@ public final class Node {
 
     public static var content: Node { .init(renderable: Content()) }
     public static var batch: Node { .init(renderable: Batch()) }
+    public static var empty: Node { .init() }
     public static func renderTarget(scaleFactorProvider: some Texture.ScaleFactorProviding) -> Node
     {
         .init(renderable: RenderTarget(scaleFactorProvider: scaleFactorProvider))
