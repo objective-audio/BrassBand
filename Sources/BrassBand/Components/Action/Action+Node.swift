@@ -2,7 +2,6 @@ import Foundation
 
 extension Action {
     public typealias ValueUpdater = @MainActor (Float) -> Void
-    public typealias ValueTransformer = @Sendable (Float) -> Float
 
     public protocol GeometryTarget: AnyObject, Sendable {
         @MainActor
@@ -26,7 +25,7 @@ extension Action {
         public var endPosition: Point
         public var duration: Duration
         public var loop: Loop
-        public var valueTransformer: ValueTransformer
+        public var valueTransformer: Transformer
         public var beginTime: Date
         public var delay: Duration
         public var completion: Completion
@@ -35,7 +34,7 @@ extension Action {
             group: ActionGroup? = nil, target: any GeometryTarget, beginPosition: Point,
             endPosition: Point,
             duration: Duration = .seconds(0.3), loop: Loop = .count(1),
-            valueTransformer: @escaping ValueTransformer = { $0 }, beginTime: Date = .now,
+            valueTransformer: Transformer = .init { $0 }, beginTime: Date = .now,
             delay: Duration = .zero, completion: @escaping Completion = {}
         ) {
             self.group = group
@@ -78,7 +77,7 @@ extension Action {
         public var isShortest: Bool
         public var duration: Duration
         public var loop: Loop
-        public var valueTransformer: ValueTransformer
+        public var valueTransformer: Transformer
         public var beginTime: Date
         public var delay: Duration
         public var completion: Completion
@@ -88,7 +87,7 @@ extension Action {
             endAngle: Angle = .zero,
             isShortest: Bool = false, duration: Duration = .seconds(0.3),
             loop: Loop = .count(1),
-            valueTransformer: @escaping ValueTransformer = { $0 }, beginTime: Date = .now,
+            valueTransformer: Transformer = .init { $0 }, beginTime: Date = .now,
             delay: Duration = .zero, completion: @escaping Completion = {}
         ) {
             self.group = group
@@ -131,7 +130,7 @@ extension Action {
         public var endScale: Size
         public var duration: Duration
         public var loop: Loop
-        public var valueTransformer: ValueTransformer
+        public var valueTransformer: Transformer
         public var beginTime: Date
         public var delay: Duration
         public var completion: Completion
@@ -140,7 +139,7 @@ extension Action {
             group: ActionGroup? = nil, target: any GeometryTarget, beginScale: Size = .one,
             endScale: Size = .one,
             duration: Duration = .seconds(0.3), loop: Loop = .count(1),
-            valueTransformer: @escaping ValueTransformer = { $0 }, beginTime: Date = .now,
+            valueTransformer: Transformer = .init { $0 }, beginTime: Date = .now,
             delay: Duration = .zero, completion: @escaping Completion = {}
         ) {
             self.group = group
@@ -180,7 +179,7 @@ extension Action {
         public var endColor: Color
         public var duration: Duration
         public var loop: Loop
-        public var valueTransformer: ValueTransformer
+        public var valueTransformer: Transformer
         public var beginTime: Date
         public var delay: Duration
         public var completion: Completion
@@ -190,7 +189,7 @@ extension Action {
             beginColor: Color = .init(repeating: 1.0),
             endColor: Color = .init(repeating: 1.0),
             duration: Duration = .seconds(0.3), loop: Loop = .count(1),
-            valueTransformer: @escaping ValueTransformer = { $0 }, beginTime: Date = .now,
+            valueTransformer: Transformer = .init { $0 }, beginTime: Date = .now,
             delay: Duration = .zero, completion: @escaping Completion = {}
         ) {
             self.group = group
@@ -229,7 +228,7 @@ extension Action {
         public var endAlpha: Alpha
         public var duration: Duration
         public var loop: Loop
-        public var valueTransformer: ValueTransformer
+        public var valueTransformer: Transformer
         public var beginTime: Date
         public var delay: Duration
         public var completion: Completion
@@ -238,7 +237,7 @@ extension Action {
             group: ActionGroup? = nil, target: any ColorTarget, beginAlpha: Alpha = .one,
             endAlpha: Alpha = .one,
             duration: Duration = .seconds(0.3), loop: Loop = .count(1),
-            valueTransformer: @escaping ValueTransformer = { $0 }, beginTime: Date = .now,
+            valueTransformer: Transformer = .init { $0 }, beginTime: Date = .now,
             delay: Duration = .zero, completion: @escaping Completion = {}
         ) {
             self.group = group

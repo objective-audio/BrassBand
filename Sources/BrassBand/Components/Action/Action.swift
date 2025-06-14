@@ -66,7 +66,7 @@ extension Action {
         public var duration: Duration
         public var loop: Loop
         public var valueUpdater: ValueUpdater
-        public var valueTransformer: ValueTransformer
+        public var valueTransformer: Transformer
         public var group: ActionGroup?
         public var beginTime: Date
         public var delay: Duration
@@ -76,7 +76,7 @@ extension Action {
             duration: Duration = .seconds(0.3),
             loop: Loop = .count(1),
             valueUpdater: @escaping ValueUpdater = { _ in },
-            valueTransformer: @escaping ValueTransformer = { $0 },
+            valueTransformer: Transformer = .linear,
             group: ActionGroup? = nil,
             beginTime: Date = .now,
             delay: Duration = .zero,
@@ -122,7 +122,7 @@ extension Action {
                         finished
                         ? 1.0 : Float(fmod(action.timeDifference(to: date), duration) / duration)
 
-                    value = valueTransformer(value)
+                    value = valueTransformer.transform(value)
 
                     valueUpdater(value)
 
