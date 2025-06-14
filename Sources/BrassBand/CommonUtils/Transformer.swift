@@ -97,9 +97,9 @@ private let easeOutExpoCurve = makeCurve {
 private let easeInOutExpoCurve = makeCurve {
     let val = $0 * 2.0
     if val < 1.0 {
-        return 0.5 * Transformer.easeInExpo(val)
+        return 0.5 * Transformer.easeInExpo.transform(val)
     } else {
-        return 0.5 * Transformer.easeOutExpo(val - 1.0) + 0.5
+        return 0.5 * Transformer.easeOutExpo.transform(val - 1.0) + 0.5
     }
 }
 private let easeInCircCurve = makeCurve { 1.0 - sqrt(1.0 - $0 * $0) }
@@ -126,108 +126,126 @@ private let pingPongCurve = makeCurve {
 }
 private let reverseCurve = makeCurve { 1.0 - $0 }
 
-public enum Transformer {
+public struct Transformer: Sendable {
     public typealias Handler = @Sendable (Float) -> Float
 
-    public static func easeInSine(_ position: Float) -> Float {
+    private let transform: @Sendable (Float) -> Float
+
+    public init(_ transform: @escaping @Sendable (Float) -> Float) {
+        self.transform = transform
+    }
+
+    public func transform(_ value: Float) -> Float {
+        transform(value)
+    }
+
+    public static let easeInSine = Transformer { position in
         convert(position: position, curve: easeInSineCurve)
     }
 
-    public static func easeOutSine(_ position: Float) -> Float {
+    public static let easeOutSine = Transformer { position in
         convert(position: position, curve: easeOutSineCurve)
     }
 
-    public static func easeInOutSine(_ position: Float) -> Float {
+    public static let easeInOutSine = Transformer { position in
         convert(position: position, curve: easeInOutSineCurve)
     }
 
-    public static func easeInQuad(_ position: Float) -> Float {
+    public static let easeInQuad = Transformer { position in
         convert(position: position, curve: easeInQuadCurve)
     }
 
-    public static func easeOutQuad(_ position: Float) -> Float {
+    public static let easeOutQuad = Transformer { position in
         convert(position: position, curve: easeOutQuadCurve)
     }
 
-    public static func easeInOutQuad(_ position: Float) -> Float {
+    public static let easeInOutQuad = Transformer { position in
         convert(position: position, curve: easeInOutQuadCurve)
     }
 
-    public static func easeInCubic(_ position: Float) -> Float {
+    public static let easeInCubic = Transformer { position in
         convert(position: position, curve: easeInCubicCurve)
     }
 
-    public static func easeOutCubic(_ position: Float) -> Float {
+    public static let easeOutCubic = Transformer { position in
         convert(position: position, curve: easeOutCubicCurve)
     }
 
-    public static func easeInOutCubic(_ position: Float) -> Float {
+    public static let easeInOutCubic = Transformer { position in
         convert(position: position, curve: easeInOutCubicCurve)
     }
 
-    public static func easeInQuart(_ position: Float) -> Float {
+    public static let easeInQuart = Transformer { position in
         convert(position: position, curve: easeInQuartCurve)
     }
 
-    public static func easeOutQuart(_ position: Float) -> Float {
+    public static let easeOutQuart = Transformer { position in
         convert(position: position, curve: easeOutQuartCurve)
     }
 
-    public static func easeInOutQuart(_ position: Float) -> Float {
+    public static let easeInOutQuart = Transformer { position in
         convert(position: position, curve: easeInOutQuartCurve)
     }
 
-    public static func easeInQuint(_ position: Float) -> Float {
+    public static let easeInQuint = Transformer { position in
         convert(position: position, curve: easeInQuintCurve)
     }
 
-    public static func easeOutQuint(_ position: Float) -> Float {
+    public static let easeOutQuint = Transformer { position in
         convert(position: position, curve: easeOutQuintCurve)
     }
 
-    public static func easeInOutQuint(_ position: Float) -> Float {
+    public static let easeInOutQuint = Transformer { position in
         convert(position: position, curve: easeInOutQuintCurve)
     }
 
-    public static func easeInExpo(_ position: Float) -> Float {
+    public static let easeInExpo = Transformer { position in
         convert(position: position, curve: easeInExpoCurve)
     }
 
-    public static func easeOutExpo(_ position: Float) -> Float {
+    public static let easeOutExpo = Transformer { position in
         convert(position: position, curve: easeOutExpoCurve)
     }
 
-    public static func easeInOutExpo(_ position: Float) -> Float {
+    public static let easeInOutExpo = Transformer { position in
         convert(position: position, curve: easeInOutExpoCurve)
     }
 
-    public static func easeInCirc(_ position: Float) -> Float {
+    public static let easeInCirc = Transformer { position in
         convert(position: position, curve: easeInCircCurve)
     }
 
-    public static func easeOutCirc(_ position: Float) -> Float {
+    public static let easeOutCirc = Transformer { position in
         convert(position: position, curve: easeOutCircCurve)
     }
 
-    public static func easeInOutCirc(_ position: Float) -> Float {
+    public static let easeInOutCirc = Transformer { position in
         convert(position: position, curve: easeInOutCircCurve)
     }
 
-    public static func pingPong(_ position: Float) -> Float {
+    public static let pingPong = Transformer { position in
         convert(position: position, curve: pingPongCurve)
     }
 
-    public static func reverse(_ position: Float) -> Float {
+    public static let reverse = Transformer { position in
         convert(position: position, curve: reverseCurve)
+    }
+
+    public static let linear = Transformer { position in
+        position
+    }
+
+    public func connect(_ other: Transformer) -> Transformer {
+        Transformer { value in
+            other.transform(self.transform(value))
+        }
     }
 }
 
-extension Sequence where Element == Transformer.Handler {
-    public func connected(_ position: Float) -> Float {
-        var value: Float = position
-        for transformer in self {
-            value = transformer(value)
+extension Array where Element == Transformer {
+    public var connected: Transformer {
+        reduce(Transformer { $0 }) { result, transformer in
+            result.connect(transformer)
         }
-        return value
     }
 }

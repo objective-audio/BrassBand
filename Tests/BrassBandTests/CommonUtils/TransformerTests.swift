@@ -3,7 +3,7 @@ import Testing
 
 struct TransformerTests {
     @Test func easeInSineTransformer() {
-        let transformer = Transformer.easeInSine
+        let transformer = Transformer.easeInSine.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.019, absoluteTolerance: 0.001))
@@ -17,7 +17,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutSineTransformer() {
-        let transformer = Transformer.easeOutSine
+        let transformer = Transformer.easeOutSine.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.195, absoluteTolerance: 0.001))
@@ -31,7 +31,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutSineTransformer() {
-        let transformer = Transformer.easeInOutSine
+        let transformer = Transformer.easeInOutSine.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.038, absoluteTolerance: 0.001))
@@ -45,7 +45,7 @@ struct TransformerTests {
     }
 
     @Test func easeInQuadTransformer() {
-        let transformer = Transformer.easeInQuad
+        let transformer = Transformer.easeInQuad.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.0156, absoluteTolerance: 0.001))
@@ -59,7 +59,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutQuadTransformer() {
-        let transformer = Transformer.easeOutQuad
+        let transformer = Transformer.easeOutQuad.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.234, absoluteTolerance: 0.001))
@@ -73,7 +73,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutQuadTransformer() {
-        let transformer = Transformer.easeInOutQuad
+        let transformer = Transformer.easeInOutQuad.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.031, absoluteTolerance: 0.001))
@@ -87,7 +87,7 @@ struct TransformerTests {
     }
 
     @Test func easeInCubicTransformer() {
-        let transformer = Transformer.easeInCubic
+        let transformer = Transformer.easeInCubic.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.002, absoluteTolerance: 0.001))
@@ -101,7 +101,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutCubicTransformer() {
-        let transformer = Transformer.easeOutCubic
+        let transformer = Transformer.easeOutCubic.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.33, absoluteTolerance: 0.001))
@@ -115,7 +115,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutCubicTransformer() {
-        let transformer = Transformer.easeInOutCubic
+        let transformer = Transformer.easeInOutCubic.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.008, absoluteTolerance: 0.001))
@@ -129,7 +129,7 @@ struct TransformerTests {
     }
 
     @Test func easeInQuartTransformer() {
-        let transformer = Transformer.easeInQuart
+        let transformer = Transformer.easeInQuart.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.000, absoluteTolerance: 0.001))
@@ -143,7 +143,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutQuartTransformer() {
-        let transformer = Transformer.easeOutQuart
+        let transformer = Transformer.easeOutQuart.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.414, absoluteTolerance: 0.001))
@@ -157,7 +157,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutQuartTransformer() {
-        let transformer = Transformer.easeInOutQuart
+        let transformer = Transformer.easeInOutQuart.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.002, absoluteTolerance: 0.001))
@@ -171,7 +171,7 @@ struct TransformerTests {
     }
 
     @Test func easeInQuintTransformer() {
-        let transformer = Transformer.easeInQuint
+        let transformer = Transformer.easeInQuint.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.000, absoluteTolerance: 0.001))
@@ -185,7 +185,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutQuintTransformer() {
-        let transformer = Transformer.easeOutQuint
+        let transformer = Transformer.easeOutQuint.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.487, absoluteTolerance: 0.001))
@@ -198,7 +198,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutQuintTransformer() {
-        let transformer = Transformer.easeInOutQuint
+        let transformer = Transformer.easeInOutQuint.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.000, absoluteTolerance: 0.001))
@@ -212,7 +212,7 @@ struct TransformerTests {
     }
 
     @Test func easeInExpoTransformer() {
-        let transformer = Transformer.easeInExpo
+        let transformer = Transformer.easeInExpo.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.002, absoluteTolerance: 0.001))
@@ -226,7 +226,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutExpoTransformer() {
-        let transformer = Transformer.easeOutExpo
+        let transformer = Transformer.easeOutExpo.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.580, absoluteTolerance: 0.001))
@@ -240,7 +240,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutExpoTransformer() {
-        let transformer = Transformer.easeInOutExpo
+        let transformer = Transformer.easeInOutExpo.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.003, absoluteTolerance: 0.001))
@@ -254,7 +254,7 @@ struct TransformerTests {
     }
 
     @Test func easeInCircTransformer() {
-        let transformer = Transformer.easeInCirc
+        let transformer = Transformer.easeInCirc.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.008, absoluteTolerance: 0.001))
@@ -268,7 +268,7 @@ struct TransformerTests {
     }
 
     @Test func easeOutCircTransformer() {
-        let transformer = Transformer.easeOutCirc
+        let transformer = Transformer.easeOutCirc.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.484, absoluteTolerance: 0.001))
@@ -282,7 +282,7 @@ struct TransformerTests {
     }
 
     @Test func easeInOutCircTransformer() {
-        let transformer = Transformer.easeInOutCirc
+        let transformer = Transformer.easeInOutCirc.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.125).isApproximatelyEqual(to: 0.016, absoluteTolerance: 0.001))
@@ -296,7 +296,7 @@ struct TransformerTests {
     }
 
     @Test func pingPongTransformer() {
-        let transformer = Transformer.pingPong
+        let transformer = Transformer.pingPong.transform
 
         #expect(transformer(0.0) == 0.0)
         #expect(transformer(0.25) == 0.5)
@@ -306,7 +306,7 @@ struct TransformerTests {
     }
 
     @Test func reverseTransformer() {
-        let transformer = Transformer.reverse
+        let transformer = Transformer.reverse.transform
 
         #expect(transformer(0.0) == 1.0)
         #expect(transformer(0.25) == 0.75)
@@ -316,7 +316,7 @@ struct TransformerTests {
     }
 
     @Test func connect() {
-        let transformer = [Transformer.pingPong, Transformer.reverse].connected
+        let transformer = [Transformer.pingPong, Transformer.reverse].connected.transform
 
         #expect(transformer(0.0) == 1.0)
         #expect(transformer(0.25) == 0.5)

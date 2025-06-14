@@ -8,7 +8,7 @@ extension Action {
         var endValue: Float
         var duration: Duration
         var loop: Loop
-        var valueTransformer: ValueTransformer
+        var valueTransformer: Transformer
         var beginTime: Date
         var delay: Duration
         var completion: Completion
@@ -17,7 +17,7 @@ extension Action {
             group: ActionGroup? = nil, target: any LayoutValueTarget, beginValue: Float,
             endValue: Float,
             duration: Duration = .seconds(0.3), loop: Loop = .count(1),
-            valueTransformer: @escaping ValueTransformer = { $0 }, beginTime: Date = .now,
+            valueTransformer: Transformer = .linear, beginTime: Date = .now,
             delay: Duration = .zero, completion: @escaping Completion = {}
         ) {
             self.group = group

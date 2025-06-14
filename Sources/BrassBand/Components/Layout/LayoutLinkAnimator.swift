@@ -9,7 +9,7 @@ public final class LayoutLinkAnimator {
     public init(
         rootAction: ParallelAction, layoutLinks: [any LayoutLink],
         duration: Duration = .seconds(0.3), group: ActionGroup? = nil,
-        valueTransformer: @escaping Action.ValueTransformer = { $0 },
+        valueTransformer: Transformer = .linear,
         now: @escaping @Sendable () -> Date = { .now }
     ) {
         let layoutLinks: [LayoutValueLink] = layoutLinks.flatMap(\.layoutValueLinks)
