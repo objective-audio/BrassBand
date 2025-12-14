@@ -209,7 +209,7 @@ final class ExampleMain {
             let action = Action.Translation(
                 target: bigButton.node, beginPosition: .zero, endPosition: .init(x: 32.0, y: 0.0),
                 duration: .seconds(5), loop: .infinity,
-                valueTransformer: { sinf(Float.pi * 2.0 * $0) }
+                valueTransformer: .init { sinf(Float.pi * 2.0 * $0) }
             )
             components.rootAction.insert(action)
         }
