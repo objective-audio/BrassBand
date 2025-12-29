@@ -4,16 +4,16 @@ import Testing
 
 @MainActor
 struct FontAtlasTests {
-    private let provider = ScaleFactorProviderStub()
-    private let texture: Texture
-
-    init() {
-        texture = Texture(
+    private func makeTexture(scaleFactor: Double = 1.0) -> (ScaleFactorProviderStub, Texture) {
+        let provider = ScaleFactorProviderStub(scaleFactor: scaleFactor)
+        let texture = Texture(
             pointSize: .init(width: 256, height: 256), drawPadding: 0, usage: .shaderRead,
             pixelFormat: .rgba8Unorm, scaleFactorProvider: provider)
+        return (provider, texture)
     }
 
     @Test func initial() async throws {
+        let (_, texture) = makeTexture()
         let fontAtlas = FontAtlas(
             fontName: "HelveticaNeue", fontSize: 14.0, words: "aabcde12345", texture: texture)
 
@@ -35,6 +35,7 @@ struct FontAtlasTests {
     }
 
     @Test func rect() {
+        let (_, texture) = makeTexture()
         let fontAtlas = FontAtlas(
             fontName: "HelveticaNeue", fontSize: 14.0, words: "a1", texture: texture)
 
@@ -46,6 +47,7 @@ struct FontAtlasTests {
     }
 
     @Test func advance() throws {
+        let (_, texture) = makeTexture()
         let fontAtlas = FontAtlas(
             fontName: "HelveticaNeue", fontSize: 14.0, words: "a1", texture: texture)
 
@@ -58,6 +60,7 @@ struct FontAtlasTests {
 
     @Test(.enabled(if: isMetalSystemAvailable))
     func prepareForRendering() throws {
+        let (_, texture) = makeTexture()
         let device = try #require(MTLCreateSystemDefaultDevice())
         let view = MetalView()
         let system = try #require(MetalSystem(device: device, view: view))
@@ -65,5 +68,20 @@ struct FontAtlasTests {
             fontName: "HelveticaNeue", fontSize: 14.0, words: "a1", texture: texture)
 
         try fontAtlas.texture.prepareForRendering(system: system)
+    }
+
+    @Test func scaleFactorUpdate() {
+        let (provider, texture) = makeTexture(scaleFactor: 0.0)
+        let fontAtlas = FontAtlas(
+            fontName: "HelveticaNeue", fontSize: 14.0, words: "a", texture: texture)
+
+        // rect is empty when scaleFactor is 0
+        #expect(fontAtlas.rect(for: "a") == .empty)
+
+        // change scaleFactor to 1.0
+        provider.scaleFactor = 1.0
+
+        // rect is no longer empty
+        #expect(fontAtlas.rect(for: "a") != .empty)
     }
 }
