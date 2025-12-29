@@ -67,7 +67,7 @@ public final class FontAtlas {
         CTFontGetAdvancesForGlyphs(font, .default, &glyphs, &advances, wordCount)
 
         let stringHeight = descent + ascent
-        let scaleFactor = texture.scaleFactor
+        let scaleFactor = max(texture.scaleFactor, 1.0)
 
         for (index, word) in words.enumerated() {
             guard wordInfos[word] == nil else {
