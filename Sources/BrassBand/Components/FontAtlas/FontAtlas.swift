@@ -41,11 +41,16 @@ public final class FontAtlas {
         self.wordInfos = Self.makeWordInfos(
             words: words, font: font, fontName: fontName, fontSize: fontSize, texture: texture)
 
+        updatePositions()
         updateTexCoords()
 
         texture.metalTextureDidChange.sink { [weak self] in
             self?.updateTexCoords()
             self?.rectsDidUpdateSubject.send()
+        }.store(in: &cancellables)
+
+        texture.sizeDidUpdate.sink { [weak self] _ in
+            self?.updatePositions()
         }.store(in: &cancellables)
     }
 
@@ -67,7 +72,6 @@ public final class FontAtlas {
         CTFontGetAdvancesForGlyphs(font, .default, &glyphs, &advances, wordCount)
 
         let stringHeight = descent + ascent
-        let scaleFactor = texture.scaleFactor
 
         for (index, word) in words.enumerated() {
             guard wordInfos[word] == nil else {
@@ -77,9 +81,6 @@ public final class FontAtlas {
             let imageSize = UIntSize(
                 width: UInt32(ceil(advances[index].width)),
                 height: UInt32(ceil(stringHeight)))
-            let imageRegion = Region(
-                origin: .init(x: 0.0, y: round(-Float(descent), scale: scaleFactor)),
-                size: .init(width: Float(imageSize.width), height: Float(imageSize.height)))
 
             let textureElement = texture.addElement(size: imageSize) {
                 [glyph = glyphs[index]] context in
@@ -104,11 +105,8 @@ public final class FontAtlas {
 
             let advance = advances[index]
 
-            var rect = Vertex2dRect()
-            rect.setPositions(imageRegion.positions)
-
             wordInfos[word] = .init(
-                rect: rect,
+                rect: .empty,
                 advance: .init(width: Float(advance.width), height: Float(advance.height)),
                 textureElement: textureElement)
         }
@@ -139,13 +137,29 @@ public final class FontAtlas {
     private func updateTexCoords() {
         let wordInfos = self.wordInfos
         for (key, value) in wordInfos {
-            var rect = value.rect
+            let texCoords: RegionPositions
             if let textureElement = value.textureElement {
-                rect.setTexCoords(textureElement.texCoords.positions)
+                texCoords = textureElement.texCoords.positions
             } else {
-                rect.setTexCoords(.zero)
+                texCoords = .zero
             }
-            self.wordInfos[key]?.rect = rect
+            self.wordInfos[key]?.rect.setTexCoords(texCoords)
+        }
+    }
+
+    private func updatePositions() {
+        let scaleFactor = texture.scaleFactor
+        guard scaleFactor >= 1.0 else { return }
+
+        let height = Float(ceil(descent + ascent))
+        let origin = Point(x: 0.0, y: round(-Float(descent), scale: scaleFactor))
+        let wordInfos = self.wordInfos
+        for (key, value) in wordInfos {
+            let imageRegion = Region(
+                origin: origin,
+                size: .init(width: ceil(value.advance.width),
+                            height: height))
+            self.wordInfos[key]?.rect.setPositions(imageRegion.positions)
         }
     }
 }
