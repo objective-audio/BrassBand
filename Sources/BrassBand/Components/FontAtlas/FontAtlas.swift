@@ -47,6 +47,10 @@ public final class FontAtlas {
             self?.updateTexCoords()
             self?.rectsDidUpdateSubject.send()
         }.store(in: &cancellables)
+
+        texture.sizeDidUpdate.sink { [weak self] _ in
+            self?.updatePositions()
+        }.store(in: &cancellables)
     }
 
     private static func makeWordInfos(
@@ -145,6 +149,25 @@ public final class FontAtlas {
             } else {
                 rect.setTexCoords(.zero)
             }
+            self.wordInfos[key]?.rect = rect
+        }
+    }
+
+    private func updatePositions() {
+        let scaleFactor = max(texture.scaleFactor, 1.0)
+        let stringHeight = descent + ascent
+
+        let wordInfos = self.wordInfos
+        for (key, value) in wordInfos {
+            let imageSize = UIntSize(
+                width: UInt32(ceil(Double(value.advance.width))),
+                height: UInt32(ceil(stringHeight)))
+            let imageRegion = Region(
+                origin: .init(x: 0.0, y: round(-Float(descent), scale: scaleFactor)),
+                size: .init(width: Float(imageSize.width), height: Float(imageSize.height)))
+
+            var rect = value.rect
+            rect.setPositions(imageRegion.positions)
             self.wordInfos[key]?.rect = rect
         }
     }
