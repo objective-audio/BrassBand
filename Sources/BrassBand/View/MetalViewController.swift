@@ -1,5 +1,6 @@
 import Combine
 import MetalKit
+import QuartzCore
 
 open class MetalViewController: UI.ViewController {
     public let viewLook: ViewLook = .init()
@@ -72,6 +73,11 @@ open class MetalViewController: UI.ViewController {
     public func configure(renderer: Renderer, system: MetalSystem, eventInput: EventInput) {
         metalView.device = system.device
         metalView.sampleCount = system.sampleCount
+
+        if let layer = metalView.layer as? CAMetalLayer {
+            layer.maximumDrawableCount = MetalConstants.framesInFlight
+            layer.allowsNextDrawableTimeout = false
+        }
 
         self.renderer = renderer
 

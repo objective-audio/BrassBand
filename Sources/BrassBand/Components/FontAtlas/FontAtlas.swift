@@ -157,8 +157,9 @@ public final class FontAtlas {
         for (key, value) in wordInfos {
             let imageRegion = Region(
                 origin: origin,
-                size: .init(width: ceil(value.advance.width),
-                            height: height))
+                size: .init(
+                    width: ceil(value.advance.width),
+                    height: height))
             self.wordInfos[key]?.rect.setPositions(imageRegion.positions)
         }
     }
