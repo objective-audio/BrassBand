@@ -8,7 +8,10 @@ public struct DynamicMeshData<Element: MeshDataElement> {
     public let rawMeshData: MeshData<Element>
 
     public init(capacity: Int, count: Int? = nil) {
-        self.rawMeshData = .init(capacity: capacity, count: count, dynamicBufferCount: 2)
+        self.rawMeshData = .init(
+            capacity: capacity,
+            count: count,
+            dynamicBufferCount: MetalConstants.framesInFlight)
     }
 
     public func read(_ handler: @MainActor (UnsafeBufferPointer<Element>) -> Void) {
