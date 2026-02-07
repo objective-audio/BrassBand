@@ -12,7 +12,7 @@ public final class MetalSystem {
         case makeMTLSamplerStateFailed
     }
 
-    private static let uniformsBufferCount: Int = 3
+    private static let uniformsBufferCount: Int = MetalConstants.framesInFlight
     private static let depthPixelFormat: MTLPixelFormat = .invalid
     private static let stencilPixelFormat: MTLPixelFormat = .invalid
 
@@ -116,7 +116,7 @@ public final class MetalSystem {
 
         self.view = view
         self.sampleCount = sampleCount
-        self.inflightSemaphore = DispatchSemaphore(value: Int(Self.uniformsBufferCount))
+        self.inflightSemaphore = DispatchSemaphore(value: MetalConstants.framesInFlight)
     }
 
     func prepareUniformsBuffer(uniformsCount: Int) {
@@ -242,16 +242,18 @@ extension MetalSystem: Renderer.System {
     public func viewRender(
         projectionMatrix: simd_float4x4, rootNode: Node, detector: any DetectorForRenderInfo
     ) {
-        guard let renderPassDescriptor = view.currentRenderPassDescriptor,
-            let drawable = view.currentDrawable
+        inflightSemaphore.wait()
+        guard
+            let renderPassDescriptor = view.currentRenderPassDescriptor,
+            let drawable = view.currentDrawable,
+            let commandBuffer = commandQueue.makeCommandBuffer()
         else {
+            inflightSemaphore.signal()
             return
         }
 
-        inflightSemaphore.wait()
-
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-            return
+        commandBuffer.addCompletedHandler { @Sendable [inflightSemaphore] _ in
+            inflightSemaphore.signal()
         }
 
         uniformsBufferOffset = 0
@@ -260,10 +262,6 @@ extension MetalSystem: Renderer.System {
             projectionMatrix: projectionMatrix, rootNode: rootNode, detector: detector,
             commandBuffer: commandBuffer,
             renderPassDescriptor: renderPassDescriptor)
-
-        commandBuffer.addCompletedHandler { @Sendable [inflightSemaphore] _ in
-            inflightSemaphore.signal()
-        }
 
         uniformsBufferIndex = (uniformsBufferIndex + 1) % Self.uniformsBufferCount
 
