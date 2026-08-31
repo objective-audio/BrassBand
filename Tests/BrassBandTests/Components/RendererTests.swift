@@ -9,6 +9,11 @@ import os
 private final class ViewLookStub: Renderer.ViewLook {
     var background: Background = .init()
     var projectionMatrix: simd_float4x4 = matrix_identity_float4x4
+    var needsRender = false
+
+    func clearNeedsRender() {
+        needsRender = false
+    }
 }
 
 private final class SystemStub: Renderer.System {
@@ -172,5 +177,26 @@ final class RendererTests {
         action.shouldUpdate = false
         renderer.viewRender()
         #expect(!system.viewRenderCalled)
+    }
+
+    @Test
+    func needsRenderTriggersViewRender() {
+        let renderer = Renderer(
+            rootNode: rootNode,
+            viewLook: viewLook,
+            system: system,
+            detector: detector,
+            action: action
+        )
+
+        action.shouldUpdate = false
+        renderer.viewRender()
+        system.viewRenderCalled = false
+
+        viewLook.needsRender = true
+        renderer.viewRender()
+
+        #expect(system.viewRenderCalled)
+        #expect(!viewLook.needsRender)
     }
 }
