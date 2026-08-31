@@ -26,12 +26,22 @@ public final class ViewLook {
 
     public let background: Background = .init()
 
+    public private(set) var needsRender = false
+
+    public func clearNeedsRender() {
+        needsRender = false
+    }
+
     public func set(
         viewSize: UIntSize, drawableSize: UIntSize, safeAreaInsets: RegionInsets
     ) {
         let viewSizeResult = update(viewSize: viewSize, drawableSize: drawableSize)
         let scaleResult = updateScaleFactor()
         let safeAreaResult = updateSafeAreaInsets(safeAreaInsets)
+
+        if viewSizeResult {
+            needsRender = true
+        }
 
         if viewSizeResult || safeAreaResult {
             updateViewLayoutGuide()

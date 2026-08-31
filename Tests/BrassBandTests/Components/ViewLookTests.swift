@@ -159,4 +159,38 @@ struct ViewLookTests {
 
         canceller.cancel()
     }
+
+    @Test func needsRenderOnSizeChange() {
+        let viewLook = ViewLook()
+
+        #expect(!viewLook.needsRender)
+
+        viewLook.set(
+            viewSize: .init(width: 256, height: 128), drawableSize: .init(width: 512, height: 256),
+            safeAreaInsets: .zero)
+
+        #expect(viewLook.needsRender)
+
+        viewLook.clearNeedsRender()
+        #expect(!viewLook.needsRender)
+
+        viewLook.set(
+            viewSize: .init(width: 256, height: 128), drawableSize: .init(width: 512, height: 256),
+            safeAreaInsets: .zero)
+
+        #expect(!viewLook.needsRender)
+    }
+
+    @Test func needsRenderIgnoresSafeAreaOnlyChange() {
+        let viewLook = ViewLook()
+
+        viewLook.set(
+            viewSize: .init(width: 256, height: 128), drawableSize: .init(width: 512, height: 256),
+            safeAreaInsets: .zero)
+        viewLook.clearNeedsRender()
+
+        viewLook.setSafeAreaInsets(.init(left: 1.0, right: 2.0, bottom: 3.0, top: 4.0))
+
+        #expect(!viewLook.needsRender)
+    }
 }

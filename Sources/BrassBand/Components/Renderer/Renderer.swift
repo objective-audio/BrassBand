@@ -64,12 +64,13 @@ extension Renderer {
             detector.beginUpdate()
         }
 
-        return treeUpdates.isAnyUpdated
+        return treeUpdates.isAnyUpdated || viewLook.needsRender
     }
 
     func postRender() {
         rootNode.clearUpdates()
         viewLook.background.clearUpdates()
+        viewLook.clearNeedsRender()
         detector.endUpdate()
     }
 }
